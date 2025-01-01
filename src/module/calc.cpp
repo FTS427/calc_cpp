@@ -1,5 +1,4 @@
 #include <cstdlib>
-#include <cstring>
 #include <cmath>
 
 double calc(char *num1, char *op, char *num2){
@@ -21,6 +20,6 @@ double calc(char *num1, char *op, char *num2){
         return pow(n1, n2);
     }
     else {
-        return 0;
+        printf("%s%sInvalid operation%s\n", F_RED, BOLD, RESET);
     }
 }

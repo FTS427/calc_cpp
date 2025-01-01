@@ -1,4 +1,5 @@
 #define PROJECT_NAME "CALC"
 #define PROJECT_DESCRIPTION "A simple calc written in C++"
 #define PROJECT_AUTHOR "Huang FTS427"
+#define PROJECT_REPO "https://github.com/FTS427/calc_cpp"
 #define PROJECT_VERSION "1.0.0"
