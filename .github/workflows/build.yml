@@ -14,18 +14,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3.0.0
 
-    - name: Install dependencies
+    - name: 🛠 Install dependencies
       run: |
         choco install -y cmake
         choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
         choco install -y zip
 
-    - name: Add build version
+    - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
       run: |
-        python .github/scripts/add_commit_info.py ${{ github.sha }}
+        python .github/workflows/add_commit_info.py ${{ github.sha }}
 
-    - name: Make it
+    - name: 🔨 Make it
       run: |
         mkdir build
         cd build
@@ -33,7 +33,7 @@ jobs:
         zip -r ../calc_windows.zip ./calc.exe
         cd ../
     
-    - name: Upload artifact
+    - name: ⬆️ Upload artifact
       uses: actions/upload-artifact@v4.1.0
       with:
         name: calc_windows
@@ -45,17 +45,17 @@ jobs:
     steps:
     - uses: actions/checkout@v3.0.0
 
-    - name: Install dependencies
+    - name: 🛠 Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake g++ zip make python3
 
-    - name: Add build version
+    - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
       run: |
-        python .github/scripts/add_commit_info.py ${{ github.sha }}
+        python .github/workflows/add_commit_info.py ${{ github.sha }}
 
-    - name: Make it
+    - name: 🔨 Make it
       run: |
         mkdir -p build
         cd build
@@ -65,12 +65,12 @@ jobs:
         zip -r ../calc_linux.zip ./calc
         cd ../
 
-    - name: Download artifact
+    - name: ⬇️ Download artifact
       uses: actions/download-artifact@v4.1.0
       with:
         name: calc_windows
     
-    - name: Release
+    - name: 😋 Release
       if: github.event_name == 'pull_request'
       uses: marvinpinto/action-automatic-releases@latest
       with:
@@ -81,7 +81,7 @@ jobs:
         automatic_release_tag: 'nightly'
         title: 'Nightly Build'
     
-    - name: Delete artifact
+    - name: 🗑️ Delete artifact
       uses: geekyeggo/delete-artifact@v2
       with:
         name: calc_windows
