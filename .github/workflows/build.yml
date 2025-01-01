@@ -73,14 +73,14 @@ jobs:
     
     - name: 😋 Release
       if: github.event_name != 'pull_request'
-      uses: marvinpinto/action-automatic-releases@latest
+      uses: softprops/action-gh-release@v2
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        name: "Nightly Build"
+        tag_name: "nightly"
+        repository: ${{ github.repository }}
         prerelease: true
         files: |
           *.zip
-        automatic_release_tag: 'nightly'
-        title: 'Nightly Build'
     
     - name: 🗑️ Delete artifact
       uses: geekyeggo/delete-artifact@v2
