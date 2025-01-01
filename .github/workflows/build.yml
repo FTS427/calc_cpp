@@ -1,0 +1,87 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        choco install -y cmake
+        choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+        choco install -y zip
+
+    - name: Add build version
+      working-directory: ${{ github.workspace }}
+      run: |
+        python .github/scripts/add_commit_info.py ${{ github.sha }}
+
+    - name: Make it
+      run: |
+        mkdir build
+        cd build
+        cmake ../
+        zip -r ../calc_windows.zip ./calc.exe
+        cd ../
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: calc_windows
+        path: calc_windows.zip
+  
+  build_linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ zip make python3
+
+    - name: Add build version
+      working-directory: ${{ github.workspace }}
+      run: |
+        python .github/scripts/add_commit_info.py ${{ github.sha }}
+
+    - name: Make it
+      run: |
+        mkdir -p build
+        cd build
+        cmake ../
+        make
+        chmod +x calc
+        zip -r ../calc_linux.zip ./calc
+        cd ../
+
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: calc_windows
+    
+    - name: Release
+      if: github.event_name == 'pull_request'
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
+        files: |
+          *.zip
+        automatic_release_tag: 'nightly'
+        title: 'Nightly Build'
+    
+    - name: Delete artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+        name: calc_windows
