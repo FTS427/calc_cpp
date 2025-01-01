@@ -72,7 +72,7 @@ jobs:
         name: calc_windows
     
     - name: 😋 Release
-      if: github.event_name == 'pull_request'
+      if: github.event_name != 'pull_request'
       uses: marvinpinto/action-automatic-releases@latest
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
