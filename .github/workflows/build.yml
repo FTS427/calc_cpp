@@ -19,6 +19,7 @@ jobs:
         choco install -y cmake
         choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
         choco install -y zip
+        choco install -y make
 
     - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
@@ -29,9 +30,9 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake ../
+        cmake .. -G "Unix Makefiles"
         zip -r ../calc_windows.zip ./calc.exe
-        cd ../
+        cd ..
     
     - name: ⬆️ Upload artifact
       uses: actions/upload-artifact@v4.1.0
@@ -58,13 +59,11 @@ jobs:
 
     - name: 🔨 Make it
       run: |
-        mkdir -p build
-        cd build
-        cmake ../
-        make
+        mkdir -p build && cd build
+        cmake .. -G "Unix Makefiles" && make
         chmod +x calc
         zip -r ../calc_linux.zip ./calc
-        cd ../
+        cd ..
 
     - name: ⬇️ Download artifact
       uses: actions/download-artifact@v4.1.7
