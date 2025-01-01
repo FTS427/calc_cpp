@@ -20,7 +20,6 @@ jobs:
         choco install -y zip
         choco install -y make
         choco install -y mingw
-        choco install -y llvm
 
     - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
