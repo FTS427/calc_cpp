@@ -40,6 +40,7 @@ jobs:
         path: calc_windows.zip
   
   build_linux:
+    needs: build_windows
     runs-on: ubuntu-latest
 
     steps:
