@@ -1,25 +1,45 @@
-#include <cstdlib>
-#include <cmath>
+class Calculate{
+    private:
+        double Num1, Num2, resault=0;
+        char op;
+        bool status;
+        
 
-double calc(char *num1, char *op, char *num2){
-    double n1 = atof(num1);
-    double n2 = atof(num2);
-    if (strcmp(op, "+") == 0){
-        return n1 + n2;
-    }
-    else if (strcmp(op, "-") == 0){
-        return n1 - n2;
-    }
-    else if (strcmp(op, "*") == 0){
-        return n1 * n2;
-    }
-    else if (strcmp(op, "/") == 0 && n2 != 0){
-        return n1 / n2;
-    }
-    else if (strcmp(op, "^") == 0 && n2 != 0){
-        return pow(n1, n2);
-    }
-    else {
-        printf("%s%sInvalid operation%s\n", F_RED, BOLD, RESET);
-    }
-}
+    public:
+        Calculate(double N1, char Op, double N2):
+            Num1(N1), op(Op), Num2(N2){}
+
+        void calc_resault(){
+            if(op == '+'){
+                resault = Num1 + Num2;
+                status = true;
+            }
+            else if (op == '-') {
+                resault = Num1 - Num2;
+                status = true;
+            }
+            else if (op == '*') {
+                resault = Num1* Num2;
+                status = true;
+            }
+            else if (op == '/' && Num2 != 0) {
+                resault = Num1 / Num2;
+                status = true;
+            }
+            else if (op == '^' && Num1 != 0) {
+                resault = pow(Num1, Num2);
+                status = true;
+            }
+            else {
+                status = false;
+            }
+        }
+
+        bool get_status() const {
+            return status;
+        }
+
+        double get_resault() const {
+            return resault;
+        }
+};

@@ -22,3 +22,5 @@
 #define REVERSE "\033[7m"
 #define CONCEAL "\033[8m"
 #define CROSSED "\033[9m"
+
+#define ALARM "\a"
