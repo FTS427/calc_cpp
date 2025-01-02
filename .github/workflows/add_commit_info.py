@@ -11,4 +11,4 @@ def alter(file,old_str,new_str):
 
 commit_sha = sys.argv[1]
 
-alter("src/include/info.hpp", "#define PROJECT_VERSION \"1.0.0\"", f"#define PROJECT_VERSION \"1.0.0 {commit_sha[:7]}\"")
+alter("src/include/info.hpp", "#define PROJECT_VERSION \"1.0.1\"", f"#define PROJECT_VERSION \"1.0.1 {commit_sha[:7]}\"")
