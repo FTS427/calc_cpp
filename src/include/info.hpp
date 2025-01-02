@@ -2,5 +2,5 @@
 #define PROJECT_DESCRIPTION "A simple calc written in C++"
 #define PROJECT_AUTHOR "Huang FTS427"
 #define PROJECT_REPO "https://github.com/FTS427/calc_cpp"
-#define PROJECT_VERSION "1.0.0"
+#define PROJECT_VERSION "1.0.1"
 #define PROJECT_LICENSE "GPL 3.0"
