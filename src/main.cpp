@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     Function function;
     Calculate calc(0, ' ', 0);
     
-    if (argc >= 1){
+    if (argc > 1){
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0 ){
             function.version();
         }
@@ -24,7 +24,6 @@ int main(int argc, char *argv[]){
         }
         else if (strcmp(argv[1], "-i") == 0 || strcmp(argv[1], "--info") == 0 ){
             function.info();
-        
         }
         else if (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "--calc") == 0 ){
             calc = Calculate(atof(argv[2]), *argv[3], atof(argv[4]));

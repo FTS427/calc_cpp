@@ -7,7 +7,6 @@ class Function{
             printf("  -i, --info    Show info\n");
             printf("  -h, --help       Show help\n");
             printf("  -c NUM1 OPTION NUM2, --calc NUM1 OPTION NUM2      Calculate\n");
-            printf("                     -o FILE, --output FILE     write in FILE\n");
         }
         void info(){
             printf("==== %s ====\n", PROJECT_NAME);
