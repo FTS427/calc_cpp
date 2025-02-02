@@ -3,7 +3,6 @@ class Calculate{
         double Num1, Num2, resault=0;
         char op;
         bool status;
-        
 
     public:
         Calculate(double N1, char Op, double N2):

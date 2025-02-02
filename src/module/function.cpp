@@ -3,10 +3,10 @@ class Function{
         void help(){
             printf("Usage: calc [option]\n");
             printf("Options:\n");
-            printf("  -v, --version    Show version\n");
-            printf("  -i, --info    Show info\n");
-            printf("  -h, --help       Show help\n");
-            printf("  -c NUM1 OPTION NUM2, --calc NUM1 OPTION NUM2      Calculate\n");
+            printf(" -v, --version     Show version\n");
+            printf(" -i, --info        Show info\n");
+            printf(" -h, --help        Show help\n");
+            printf(" -c, --calc NUM1 OPTION NUM2      Calculate\n");
         }
         void info(){
             printf("==== %s ====\n", PROJECT_NAME);
@@ -20,6 +20,6 @@ class Function{
             printf("%s\n", PROJECT_VERSION);
         }
         void error(){
-            std::cerr << ALARM << F_RED << BOLD << "Invalid operation\n" << RESET;
+            printf("%s%s%sInvalid operation!\n%s", ALARM, F_RED, BOLD, RESET);
         }
 };
