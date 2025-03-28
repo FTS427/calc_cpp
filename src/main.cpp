@@ -3,9 +3,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <cstdio>
-#include <iostream>
 
-#include "include/info.hpp"
 #include "include/tui.hpp"
 
 #include "module/calc.cpp"
@@ -25,7 +23,7 @@ int main(int argc, char *argv[]){
         else if (strcmp(argv[1], "-i") == 0 || strcmp(argv[1], "--info") == 0 ){
             function.info();
         }
-        else if (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "--calc") == 0 ){
+        else if (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "--calc") == 0 && argc >= 5){
             calc = Calculate(atof(argv[2]), *argv[3], atof(argv[4]));
             calc.calc_resault();
 
@@ -39,6 +37,9 @@ int main(int argc, char *argv[]){
         else{
             function.error();
         }
+    }
+    else {
+        function.error();
     }
     return 0;
 }
