@@ -3,7 +3,7 @@ set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_COMPILER "clang++")
 
-project("calc" LANGUAGES CXX VERSION 1.0.1 DESCRIPTION "Simple calculator" HOMEPAGE_URL "https://github/FTS427/calc_cpp" )
+project("calc" LANGUAGES CXX VERSION 1.0.1 DESCRIPTION "Simple calculator" HOMEPAGE_URL "https://github.com/FTS427/calc_cpp")
 
 set(CMAKE_CXX_STANDARD 17)
 
