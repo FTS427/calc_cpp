@@ -6,7 +6,7 @@ class Calculate{
 
     public:
         Calculate(double N1, char Op, double N2):
-            Num1(N1), op(Op), Num2(N2){}
+            Num1(N1), Num2(N2), op(Op){}
 
         void calc_resault(){
             if(op == '+'){
