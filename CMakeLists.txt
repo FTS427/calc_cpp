@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 4.0)
 set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_COMPILER "clang++")
 
-project("calc" LANGUAGES CXX VERSION 1.0.1 DESCRIPTION "Simple calculator" HOMEPAGE_URL "https://github.com/FTS427/calc_cpp")
+project("calc" LANGUAGES CXX VERSION 1.0.1 DESCRIPTION "A Simple calculator" HOMEPAGE_URL "https://github.com/FTS427/calc_cpp")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 include_directories("src/include")
 aux_source_directory("src" SRC)
