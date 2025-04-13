@@ -1,6 +1,13 @@
+#ifndef Function_HPP
+#define Function_HPP
+
+#include <stdio.h>
+
+#include "./tui.hpp"
+
 namespace function {
 
-    void help() {
+    inline void help() {
         printf("Usage: calc [option]\n");
         printf("Options:\n");
         printf(" -v, --version     Show version\n");
@@ -9,7 +16,7 @@ namespace function {
         printf(" -c, --calc NUM1 OPTION NUM2      Calculate\n");
     }
     
-    void info() {
+    inline void info() {
         printf("==== %s ====\n", PROJECT_NAME);
         printf(" - Version: %s build\n", PROJECT_VERSION);
         printf(" - Repository: %s%s%s\n", UNDERLINE, PROJECT_REPO, RESET);
@@ -18,10 +25,12 @@ namespace function {
         printf(" - Made by %s\n", PROJECT_AUTHOR);
     }
     
-    void version() { printf("%s\n", PROJECT_VERSION); }
+    inline void version() { printf("%s\n", PROJECT_VERSION); }
     
-    void error() {
+    inline void error() {
         printf("%s%s%sInvalid operation!\n%s", ALARM, F_RED, BOLD, RESET);
     }
 
 } // namespace function
+
+#endif

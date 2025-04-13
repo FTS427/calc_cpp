@@ -1,46 +1,54 @@
-#include <stdio.h>
-#include <cstring>
-#include <cstdlib>
-#include <cmath>
-#include <cstdio>
+#include <iostream>
+#include <string_view>
+#include <unordered_map>
+#include <functional>
+#include <span>
 
 #include "include/tui.hpp"
+#include "include/calc.hpp"
+#include "include/function.hpp"
 
-#include "module/calc.cpp"
-#include "module/function.cpp"
+int main(int argc, char *argv[]) {
+    if (argc <= 1) {
+        function::error();
+        return 1;
+    }
 
-using function::error;
-
-int main(int argc, char *argv[]){
-    Calculate calc(0, ' ', 0);
+    const std::string_view cmd(argv[1]);
     
-    if (argc > 1){
-        if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0 ){
-            function::version();
-        }
-        else if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0 ){
-            function::help();
-        }
-        else if (strcmp(argv[1], "-i") == 0 || strcmp(argv[1], "--info") == 0 ){
-            function::info();
-        }
-        else if ( (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "--calc") == 0 ) && argc >= 5){
-            calc = Calculate(atof(argv[2]), *argv[3], atof(argv[4]));
-            calc.calc_resault();
+    static const std::unordered_map<std::string_view, std::function<void()>> commands = {
+        {"-v", function::version},
+        {"--version", function::version},
+        {"-h", function::help},
+        {"--help", function::help},
+        {"-i", function::info},
+        {"--info", function::info}
+    };
 
-            if (calc.get_status()){
-                printf("%s %s%s%s %s %s=%s %lf\n", argv[2], F_YELLOW, argv[3], RESET, argv[4],F_YELLOW ,RESET, calc.get_resault());
+    if (auto it = commands.find(cmd); it != commands.end()) {
+        it->second();
+        return 0;
+    }
+
+    if ((cmd == "-c" || cmd == "--calc") && argc == 5) {
+        try {
+            Calculate calc(
+                std::stod(argv[2]),
+                argv[3][0],
+                std::stod(argv[4])
+            );
+
+            if (calc.getStatus()) {
+                printf("%.2f %s%c%s %.2f %s=%s %.2f\n", 
+                    calc.getNum1(), F_YELLOW, calc.getOp(), RESET,
+                    calc.getNum2(), F_YELLOW, RESET, calc.getResult());
+                return 0;
             }
-            else{
-                error();
-            }
-        }
-        else{
-            error();
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << '\n';
         }
     }
-    else {
-        error();
-    }
-    return 0;
+
+    function::error();
+    return 1;
 }
