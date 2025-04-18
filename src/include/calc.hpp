@@ -53,15 +53,12 @@ public:
         calculate();
     }
 
-    // 禁用拷贝
     Calculate(const Calculate&) = delete;
     Calculate& operator=(const Calculate&) = delete;
     
-    // 启用移动
     Calculate(Calculate&&) noexcept = default;
     Calculate& operator=(Calculate&&) noexcept = default;
 
-    // 查询接口
     [[nodiscard]] constexpr bool getStatus() const noexcept { return status_; }
     [[nodiscard]] constexpr double getResult() const noexcept { return result_; }
     [[nodiscard]] constexpr double getNum1() const noexcept { return num1_; }

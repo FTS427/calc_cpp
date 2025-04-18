@@ -2,7 +2,6 @@
 #include <string_view>
 #include <unordered_map>
 #include <functional>
-#include <span>
 
 #include "include/tui.hpp"
 #include "include/calc.hpp"
