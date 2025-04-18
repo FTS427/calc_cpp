@@ -1,12 +1,13 @@
 name: Build Project
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - '.github/workflows/*'
-      - 'src/*'
+      - 'src/**'
       - 'CMakeLists.txt'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,36 +15,42 @@ permissions:
 jobs:
   build_windows:
     runs-on: windows-latest
-
+    
     steps:
     - uses: actions/checkout@v4
+    
+    - name: 📦 Cache Chocolatey packages
+      uses: actions/cache@v4
+      with:
+        path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+        key: ${{ runner.os }}-chocolatey-${{ hashFiles('.github/workflows/build.yml') }}
+        restore-keys: ${{ runner.os }}-chocolatey-
 
     - name: 🛠 Install dependencies
       run: |
-        choco install -y cmake
-        choco install -y zip
-        choco install -y make
-        choco install -y mingw
-
+        choco install -y cmake zip make mingw --no-progress
     - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
-      run: |
-        python3 .github/workflows/add_commit_info.py ${{ github.sha }}
+      run: python3 .github/workflows/add_commit_info.py ${{ github.sha }}
+      continue-on-error: true
 
-    - name: 🔨 Make it
+    - name: 🔨 Build
       run: |
-        mkdir build
+        cmake -B build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+        cmake --build build --config Release
+        
+    - name: 📦 Package
+      run: |
         cd build
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release
-        make
         zip -r ../calc_windows.zip ./calc.exe
         cd ..
-    
+          
     - name: ⬆️ Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: calc_windows
         path: calc_windows.zip
+        retention-days: 1
   
   build_linux:
     needs: build_windows
@@ -52,6 +59,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: 📦 Cache apt packages
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/build.yml') }}
+        restore-keys: ${{ runner.os }}-apt-
+
     - name: 🛠 Install dependencies
       run: |
         sudo apt-get update
@@ -59,33 +73,42 @@ jobs:
 
     - name: ✨ Add build version
       working-directory: ${{ github.workspace }}
-      run: |
-        python3 .github/workflows/add_commit_info.py ${{ github.sha }}
+      run: python3 .github/workflows/add_commit_info.py ${{ github.sha }}
+      continue-on-error: true
 
-    - name: 🔨 Make it
+    - name: 🔨 Build
       run: |
-        mkdir -p build && cd build
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release && make
+        cmake -B build -DCMAKE_BUILD_TYPE=Release
+        cmake --build build --config Release
+        
+    - name: 📦 Package
+      run: |
+        cd build
         chmod +x calc
         zip -r ../calc_linux.zip ./calc
         cd ..
 
-    - name: ⬇️ Download artifact
-      uses: actions/download-artifact@v4.1.7
+    - name: ⬇️ Download Windows artifact
+      uses: actions/download-artifact@v4
       with:
         name: calc_windows
+        path: .
     
-    - name: 😋 Release
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    - name: 🚀 Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
         name: "Nightly Build"
         tag_name: "nightly"
         prerelease: true
         files: |
-          *.zip
+          calc_*.zip
+        fail_on_unmatched_files: false
+        generate_release_notes: true
     
-    - name: 🗑️ Delete artifact
+    - name: 🧹 Cleanup artifacts
+      if: always()
       uses: geekyeggo/delete-artifact@v5
       with:
         name: calc_windows
+        failOnError: false
