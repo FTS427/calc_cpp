@@ -3,18 +3,18 @@
 #include <unordered_map>
 #include <functional>
 
-#include "include/tui.hpp"
-#include "include/calc.hpp"
-#include "include/function.hpp"
+#include "tui.h"
+#include "calc.hpp"
+#include "function.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     if (argc <= 1) {
         function::error();
         return 1;
     }
 
     const std::string_view cmd(argv[1]);
-    
+
     static const std::unordered_map<std::string_view, std::function<void()>> commands = {
         {"-v", function::version},
         {"--version", function::version},
@@ -38,12 +38,13 @@ int main(int argc, char *argv[]) {
             );
 
             if (calc.getStatus()) {
-                printf("%.2f %s%c%s %.2f %s=%s %.2f\n", 
+                printf("%.2f %s%c%s %.2f %s=%s %.2f\n",
                     calc.getNum1(), F_YELLOW, calc.getOp(), RESET,
                     calc.getNum2(), F_YELLOW, RESET, calc.getResult());
                 return 0;
             }
-        } catch (const std::exception& e) {
+        }
+        catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << '\n';
         }
     }

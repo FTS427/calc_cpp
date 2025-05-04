@@ -8,12 +8,12 @@ class Calculate {
 private:
     double num1_;
     double num2_;
-    double result_{0.0};
+    double result_ { 0.0 };
     char op_;
-    bool status_{false};
+    bool status_ { false };
 
     [[nodiscard]] static constexpr bool isValidOp(char op) noexcept {
-        constexpr char valid_ops[] = {'+', '-', '*', '/', '^'};
+        constexpr char valid_ops[] = { '+', '-', '*', '/', '^' };
         for (char valid_op : valid_ops) {
             if (op == valid_op) return true;
         }
@@ -23,30 +23,30 @@ private:
     void calculate() noexcept {
         try {
             switch (op_) {
-                case '+': result_ = num1_ + num2_; break;
-                case '-': result_ = num1_ - num2_; break;
-                case '*': result_ = num1_ * num2_; break;
-                case '/': 
-                    if (num2_ == 0) throw std::domain_error("ERROR\n");
-                    result_ = num1_ / num2_; 
-                    break;
-                case '^': 
-                    result_ = std::pow(num1_, num2_);
-                    break;
-                default: 
-                    throw std::invalid_argument("Invalid argument!\n");
+            case '+': result_ = num1_ + num2_; break;
+            case '-': result_ = num1_ - num2_; break;
+            case '*': result_ = num1_ * num2_; break;
+            case '/':
+                if (num2_ == 0) throw std::domain_error("ERROR\n");
+                result_ = num1_ / num2_;
+                break;
+            case '^':
+                result_ = std::pow(num1_, num2_);
+                break;
+            default:
+                throw std::invalid_argument("Invalid argument!\n");
             }
             status_ = std::isfinite(result_);
-        } catch (...) {
+        }
+        catch (...) {
             status_ = false;
             result_ = 0.0;
         }
     }
 
 public:
-    Calculate(double n1, char op, double n2) 
-        : num1_(n1), num2_(n2), op_(op) 
-    {
+    Calculate(double n1, char op, double n2)
+        : num1_(n1), num2_(n2), op_(op) {
         if (!isValidOp(op)) {
             throw std::invalid_argument("Invalid argument!\n");
         }
@@ -55,7 +55,7 @@ public:
 
     Calculate(const Calculate&) = delete;
     Calculate& operator=(const Calculate&) = delete;
-    
+
     Calculate(Calculate&&) noexcept = default;
     Calculate& operator=(Calculate&&) noexcept = default;
 

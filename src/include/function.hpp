@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include "./tui.hpp"
+#include "tui.h"
 
 namespace function {
 
@@ -15,7 +15,7 @@ namespace function {
         printf(" -h, --help        Show help\n");
         printf(" -c, --calc NUM1 OPTION NUM2      Calculate\n");
     }
-    
+
     inline void info() {
         printf("==== %s ====\n", PROJECT_NAME);
         printf(" - Version: %s build\n", PROJECT_VERSION);
@@ -24,9 +24,9 @@ namespace function {
         printf(" - Description: %s\n", PROJECT_DESCRIPTION);
         printf(" - Made by %s\n", PROJECT_AUTHOR);
     }
-    
+
     inline void version() { printf("%s\n", PROJECT_VERSION); }
-    
+
     inline void error() {
         printf("%s%s%sInvalid operation!\n%s", ALARM, F_RED, BOLD, RESET);
     }

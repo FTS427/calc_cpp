@@ -1,3 +1,6 @@
+#ifndef TUI_H
+#define TUI_H
+
 #define F_RED "\033[31m"
 #define F_GREEN "\033[32m"
 #define F_YELLOW "\033[33m"
@@ -24,3 +27,5 @@
 #define CROSSED "\033[9m"
 
 #define ALARM "\a"
+
+#endif
